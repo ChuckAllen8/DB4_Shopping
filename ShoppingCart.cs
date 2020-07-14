@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Threading;
+using System.Globalization;
 
 namespace DB4_Shopping
 {
@@ -52,7 +53,11 @@ namespace DB4_Shopping
         {
             //check to see if the item is in the cart already
             //if so add 1 to the quantity for it, otherwise add it.
-            if(cartItems.Contains(itemName))
+            //also ensures that if the user entered the name in a different case
+            //that it is converted to the same case the dictionary uses.
+            itemName = (new CultureInfo("en-Us", false)).TextInfo.ToTitleCase(itemName);
+
+            if (cartItems.Contains(itemName))
             {
                 cartQuantities[cartItems.IndexOf(itemName)] = (int)cartQuantities[cartItems.IndexOf(itemName)] + 1;
             }
@@ -82,7 +87,11 @@ namespace DB4_Shopping
         {
             //add multiple items, making sure to properly change quantity.
             //or add the item if it isn't already in the cart.
-            for(int added = 1; added <= quantity; added++)
+            //also ensures that if the user entered the name in a different case
+            //that it is converted to the same case the dictionary uses.
+            itemName = (new CultureInfo("en-Us", false)).TextInfo.ToTitleCase(itemName);
+
+            for (int added = 1; added <= quantity; added++)
             {
                 if (cartItems.Contains(itemName))
                 {
