@@ -1,0 +1,13 @@
+C:\devbuild4\DB4_Shopping\bin\Debug\netcoreapp3.1\DB4_Shopping.exe
+C:\devbuild4\DB4_Shopping\bin\Debug\netcoreapp3.1\DB4_Shopping.deps.json
+C:\devbuild4\DB4_Shopping\bin\Debug\netcoreapp3.1\DB4_Shopping.runtimeconfig.json
+C:\devbuild4\DB4_Shopping\bin\Debug\netcoreapp3.1\DB4_Shopping.runtimeconfig.dev.json
+C:\devbuild4\DB4_Shopping\bin\Debug\netcoreapp3.1\DB4_Shopping.dll
+C:\devbuild4\DB4_Shopping\bin\Debug\netcoreapp3.1\DB4_Shopping.pdb
+C:\devbuild4\DB4_Shopping\obj\Debug\netcoreapp3.1\DB4_Shopping.csprojAssemblyReference.cache
+C:\devbuild4\DB4_Shopping\obj\Debug\netcoreapp3.1\DB4_Shopping.AssemblyInfoInputs.cache
+C:\devbuild4\DB4_Shopping\obj\Debug\netcoreapp3.1\DB4_Shopping.AssemblyInfo.cs
+C:\devbuild4\DB4_Shopping\obj\Debug\netcoreapp3.1\DB4_Shopping.csproj.CoreCompileInputs.cache
+C:\devbuild4\DB4_Shopping\obj\Debug\netcoreapp3.1\DB4_Shopping.dll
+C:\devbuild4\DB4_Shopping\obj\Debug\netcoreapp3.1\DB4_Shopping.pdb
+C:\devbuild4\DB4_Shopping\obj\Debug\netcoreapp3.1\DB4_Shopping.genruntimeconfig.cache
