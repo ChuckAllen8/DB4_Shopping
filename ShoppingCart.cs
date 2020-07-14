@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.Text;
 using System.Linq;
 using System.Threading;
 
@@ -21,6 +20,8 @@ namespace DB4_Shopping
         private decimal lowestPrice;
         private decimal highestPrice;
         private int quantitiesTotal;
+        private int sleepTimerOne = 750;
+        private int sleepTimerTwo = 1000;
 
         public int MenuItemCount { get; set; }
 
@@ -62,7 +63,7 @@ namespace DB4_Shopping
                 cartItemCosts.Add(menuItems[itemName]);
             }
             Console.WriteLine($"Adding {itemName} to cart at {menuItems[itemName]:c}");
-            Thread.Sleep(750);
+            Thread.Sleep(sleepTimerOne);
         }
 
         public void AddItem(int itemNumber)
@@ -94,9 +95,9 @@ namespace DB4_Shopping
                     cartItemCosts.Add(menuItems[itemName]);
                 }
             }
-            Console.WriteLine($"Adding {quantity} {itemName} to cart at {menuItems[itemName]:c} each.");
+            Console.WriteLine($"Adding {quantity:#,#.#} {itemName} to cart at {menuItems[itemName]:c} each.");
             Console.WriteLine($"Total amount added: {menuItems[itemName]*quantity:c}");
-            Thread.Sleep(1000);
+            Thread.Sleep(sleepTimerTwo);
         }
 
         public void ShowMenu()
@@ -198,7 +199,7 @@ namespace DB4_Shopping
             for (int index = 0; index < cartItems.Count; index++)
             {
                 Console.WriteLine($"|{(index + 1),2}: {cartItems[index],WIDTH_TWO - 4}|" +
-                    $"{cartQuantities[index],WIDTH_TWO}|{cartItemCosts[index],WIDTH_TWO:c}|");
+                    $"{cartQuantities[index],WIDTH_TWO:#,#.#}|{cartItemCosts[index],WIDTH_TWO:c}|");
             }
 
             Console.WriteLine(divider);
@@ -214,7 +215,7 @@ namespace DB4_Shopping
         private void ShowCartStatistics()
         {
             //should only be called after show cart, and is thus private.
-            // adds the statistics sections to the bottom of the cart.
+            //Adds the statistics sections to the bottom of the cart.
             string divider = $"|{new string(HEADER, WIDTH_TWO)}|{new string(HEADER, WIDTH_TWO)}|" +
                 $"{new string(HEADER, WIDTH_TWO)}|";
 
@@ -222,7 +223,7 @@ namespace DB4_Shopping
 
             Console.CursorVisible = false;
             Console.WriteLine($"|{"Unique Items",WIDTH_TWO}|{"Total Items",WIDTH_TWO}|{"Total Cost",WIDTH_TWO}|");
-            Console.WriteLine($"|{cartItems.Count,WIDTH_TWO}|{quantitiesTotal,WIDTH_TWO}|{totalPrice,WIDTH_TWO:c}|");
+            Console.WriteLine($"|{cartItems.Count,WIDTH_TWO:#,#.#}|{quantitiesTotal,WIDTH_TWO:#,#.#}|{totalPrice,WIDTH_TWO:c}|");
             Console.WriteLine(divider);
             Console.WriteLine($"|{"High Price",WIDTH_TWO}|{"Low Price",WIDTH_TWO}|{"Avg Price Each",WIDTH_TWO}|");
             Console.WriteLine($"|{highestPrice,WIDTH_TWO:c}|{lowestPrice,WIDTH_TWO:c}|{averagePrice,WIDTH_TWO:c}|");

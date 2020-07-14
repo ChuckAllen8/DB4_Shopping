@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace DB4_Shopping
@@ -23,6 +24,7 @@ namespace DB4_Shopping
         {
             string input;
             bool keepgoing = true;
+            int sleepTimer = 750;
             Screen display = Screen.Menu;
             Console.SetWindowSize(70, 40);
 
@@ -67,7 +69,7 @@ namespace DB4_Shopping
                     {
                         //invalid input was entered
                         Console.WriteLine("Sorry, that is unavailable. Please try again.");
-                        Thread.Sleep(750);
+                        Thread.Sleep(sleepTimer);
                     }
                 }
                 else
@@ -89,7 +91,7 @@ namespace DB4_Shopping
                     {
                         //invalid input received.
                         Console.WriteLine("Sorry, that is not a valid choice. Please try again.");
-                        Thread.Sleep(750);
+                        Thread.Sleep(sleepTimer);
                     }
                 }
             }
