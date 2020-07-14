@@ -26,6 +26,7 @@ namespace DB4_Shopping
 
         public ShoppingCart()
         {
+            //add menu items to the dictionary, and initialize the ArrayLists.
             menuItems = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase)
             {
                 { "Iron Ore", 100.0m },
@@ -48,6 +49,8 @@ namespace DB4_Shopping
 
         public void AddItem(string itemName)
         {
+            //check to see if the item is in the cart already
+            //if so add 1 to the quantity for it, otherwise add it.
             if(cartItems.Contains(itemName))
             {
                 cartQuantities[cartItems.IndexOf(itemName)] = (int)cartQuantities[cartItems.IndexOf(itemName)] + 1;
@@ -64,16 +67,20 @@ namespace DB4_Shopping
 
         public void AddItem(int itemNumber)
         {
+            //add an item based on the number selection for the item.
             AddItem(menuItems.ElementAt(itemNumber-1).Key);
         }
 
         public void AddMultipleItems(int itemNumber, int quantity)
         {
+            //add multiple items based on the number selection and quantity given.
             AddMultipleItems(menuItems.ElementAt(itemNumber - 1).Key, quantity);
         }
 
         public void AddMultipleItems(string itemName, int quantity)
         {
+            //add multiple items, making sure to properly change quantity.
+            //or add the item if it isn't already in the cart.
             for(int added = 1; added <= quantity; added++)
             {
                 if (cartItems.Contains(itemName))
@@ -94,6 +101,8 @@ namespace DB4_Shopping
 
         public void ShowMenu()
         {
+
+            //clear the console and remove the cursor to improve performance.
             Console.Clear();
             Console.CursorVisible = false;
 
@@ -106,6 +115,8 @@ namespace DB4_Shopping
                 $"{title}{new string(HEADER, spacer / 2)}|");
             Console.WriteLine(divider);
 
+
+            //iterate over the items in the dictionary and write them out, formatted.
             for (int index = 0; index < menuItems.Count; index++)
             {
                 KeyValuePair<string, decimal> item = menuItems.ElementAt(index);
@@ -157,6 +168,8 @@ namespace DB4_Shopping
                 }
             }
 
+            //if there are items in the ArrayLists compute the final statistics
+            //otherwise set them to 0.
             if (cartItems.Count > 0)
             {
                 averagePrice = totalPrice/quantitiesTotal;
@@ -181,6 +194,7 @@ namespace DB4_Shopping
             Console.WriteLine($"|{"Item",WIDTH_TWO}|{"Quantity",WIDTH_TWO}|{"Cost Per Each",WIDTH_TWO}|");
             Console.WriteLine(divider);
 
+            //iterate over all items in the cart and display the information, formatted.
             for (int index = 0; index < cartItems.Count; index++)
             {
                 Console.WriteLine($"|{(index + 1),2}: {cartItems[index],WIDTH_TWO - 4}|" +
@@ -199,6 +213,8 @@ namespace DB4_Shopping
 
         private void ShowCartStatistics()
         {
+            //should only be called after show cart, and is thus private.
+            // adds the statistics sections to the bottom of the cart.
             string divider = $"|{new string(HEADER, WIDTH_TWO)}|{new string(HEADER, WIDTH_TWO)}|" +
                 $"{new string(HEADER, WIDTH_TWO)}|";
 
