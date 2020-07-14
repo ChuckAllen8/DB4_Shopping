@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.Linq;
+using System.Threading;
 
 namespace DB4_Shopping
 {
@@ -15,6 +16,7 @@ namespace DB4_Shopping
         private ArrayList cartQuantities;
         private ArrayList cartItemCosts; //decimal for money items
         private const int WIDTH = 16;
+        private const int WIDTH_TWO = 20;
         private const char HEADER = '=';
         private decimal totalPrice;
         private decimal averagePrice;
@@ -22,9 +24,11 @@ namespace DB4_Shopping
         private decimal highestPrice;
         private int quantitiesTotal;
 
+        public int MenuItemCount { get; set; }
+
         public ShoppingCart()
         {
-            menuItems = new Dictionary<string, decimal>
+            menuItems = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase)
             {
                 { "Iron Ore", 100.0m },
                 { "Copper Ore", 50.0m },
@@ -41,18 +45,53 @@ namespace DB4_Shopping
             cartItems = new ArrayList();
             cartQuantities = new ArrayList();
             cartItemCosts = new ArrayList();
+            MenuItemCount = menuItems.Count;
         }
 
-        public bool AddItem(string itemName)
+        public void AddItem(string itemName)
         {
-            try
+            if(cartItems.Contains(itemName))
             {
-                return true;
+                cartQuantities[cartItems.IndexOf(itemName)] = (int)cartQuantities[cartItems.IndexOf(itemName)] + 1;
             }
-            catch
+            else
             {
-                return false;
+                cartItems.Add(itemName);
+                cartQuantities.Add(1);
+                cartItemCosts.Add(menuItems[itemName]);
             }
+            Console.WriteLine($"Adding {itemName} to cart at {menuItems[itemName]:c}");
+            Thread.Sleep(750);
+        }
+
+        public void AddItem(int itemNumber)
+        {
+            AddItem(menuItems.ElementAt(itemNumber-1).Key);
+        }
+
+        public void AddMultipleItems(int itemNumber, int quantity)
+        {
+            AddMultipleItems(menuItems.ElementAt(itemNumber - 1).Key, quantity);
+        }
+
+        public void AddMultipleItems(string itemName, int quantity)
+        {
+            for(int added = 1; added <= quantity; added++)
+            {
+                if (cartItems.Contains(itemName))
+                {
+                    cartQuantities[cartItems.IndexOf(itemName)] = (int)cartQuantities[cartItems.IndexOf(itemName)] + 1;
+                }
+                else
+                {
+                    cartItems.Add(itemName);
+                    cartQuantities.Add(1);
+                    cartItemCosts.Add(menuItems[itemName]);
+                }
+            }
+            Console.WriteLine($"Adding {quantity} {itemName} to cart at {menuItems[itemName]:c} each.");
+            Console.WriteLine($"Total amount added: {menuItems[itemName]*quantity:c}");
+            Thread.Sleep(1000);
         }
 
         public void ShowMenu()
@@ -79,27 +118,35 @@ namespace DB4_Shopping
             Console.CursorVisible = true;
         }
 
-        public void ShowOptions()
+        public bool ContainsMenuItem(string itemName)
         {
+            return menuItems.ContainsKey(itemName);
         }
 
-        public int GetOption()
+        public void MenuOptions()
         {
-            return 0;
+            Console.WriteLine("What would you like to do?");
+            Console.WriteLine("Enter an item, it's number, (S)how cart, or (C)heckout");
+            Console.Write("> ");
+        }
+
+        public void CartOptions()
+        {
+            Console.WriteLine("What would you like to do?");
+            Console.WriteLine("(M)enu or (C)heckout");
+            Console.Write("> ");
         }
 
         public void CalculateStatistics()
         {
             quantitiesTotal = 0;
             totalPrice = 0.0m;
-            averagePrice = 0.0m;
             lowestPrice = decimal.MaxValue;
             highestPrice = decimal.MinValue;
 
             for (int index = 0; index < cartItems.Count; index++)
             {
                 totalPrice += (decimal)cartItemCosts[index] * (int)cartQuantities[index];
-                averagePrice += (decimal)cartItemCosts[index];
 
                 quantitiesTotal += (int)cartQuantities[index];
                 if ((decimal)cartItemCosts[index] <= lowestPrice)
@@ -114,7 +161,7 @@ namespace DB4_Shopping
 
             if (cartItems.Count > 0)
             {
-                averagePrice /= cartItems.Count;
+                averagePrice = totalPrice/quantitiesTotal;
             }
             else
             {
@@ -126,20 +173,20 @@ namespace DB4_Shopping
 
         public void ShowCart()
         {
-            string divider = $"|{new string(HEADER, WIDTH)}|{new string(HEADER, WIDTH)}|" +
-                $"{new string(HEADER, WIDTH)}|";
+            string divider = $"|{new string(HEADER, WIDTH_TWO)}|{new string(HEADER, WIDTH_TWO)}|" +
+                $"{new string(HEADER, WIDTH_TWO)}|";
 
-            //Console.Clear();
+            Console.Clear();
             Console.CursorVisible = false;
 
             Console.WriteLine(divider);
-            Console.WriteLine($"|{"Item",WIDTH}|{"Quantity",WIDTH}|{"Cost Per Item",WIDTH}|");
+            Console.WriteLine($"|{"Item",WIDTH_TWO}|{"Quantity",WIDTH_TWO}|{"Cost Per Each",WIDTH_TWO}|");
             Console.WriteLine(divider);
 
             for (int index = 0; index < cartItems.Count; index++)
             {
-                Console.WriteLine($"|{(index + 1) + ":" + cartItems[index],WIDTH}|" +
-                    $"{cartQuantities[index],WIDTH}|{cartItemCosts[index],WIDTH:c}|");
+                Console.WriteLine($"|{(index + 1),2}: {cartItems[index],WIDTH_TWO - 4}|" +
+                    $"{cartQuantities[index],WIDTH_TWO}|{cartItemCosts[index],WIDTH_TWO:c}|");
             }
 
             Console.WriteLine(divider);
@@ -154,17 +201,17 @@ namespace DB4_Shopping
 
         private void ShowCartStatistics()
         {
-            string divider = $"|{new string(HEADER, WIDTH)}|{new string(HEADER, WIDTH)}|" +
-                $"{new string(HEADER, WIDTH)}|";
+            string divider = $"|{new string(HEADER, WIDTH_TWO)}|{new string(HEADER, WIDTH_TWO)}|" +
+                $"{new string(HEADER, WIDTH_TWO)}|";
 
             CalculateStatistics();
 
             Console.CursorVisible = false;
-            Console.WriteLine($"|{"Number of Items",WIDTH}|{"Total Quantity",WIDTH}|{"Total Cost",WIDTH}|");
-            Console.WriteLine($"|{cartItems.Count,WIDTH}|{quantitiesTotal,WIDTH}|{totalPrice,WIDTH:c}|");
+            Console.WriteLine($"|{"Unique Items",WIDTH_TWO}|{"Total Items",WIDTH_TWO}|{"Total Cost",WIDTH_TWO}|");
+            Console.WriteLine($"|{cartItems.Count,WIDTH_TWO}|{quantitiesTotal,WIDTH_TWO}|{totalPrice,WIDTH_TWO:c}|");
             Console.WriteLine(divider);
-            Console.WriteLine($"|{"Highest Price",WIDTH}|{"Lowest Price",WIDTH}|{"Average Price",WIDTH}|");
-            Console.WriteLine($"|{highestPrice,WIDTH:c}|{lowestPrice,WIDTH:c}|{averagePrice,WIDTH:c}|");
+            Console.WriteLine($"|{"High Price",WIDTH_TWO}|{"Low Price",WIDTH_TWO}|{"Avg Price Each",WIDTH_TWO}|");
+            Console.WriteLine($"|{highestPrice,WIDTH_TWO:c}|{lowestPrice,WIDTH_TWO:c}|{averagePrice,WIDTH_TWO:c}|");
             Console.WriteLine(divider);
             Console.CursorVisible = true;
         }
