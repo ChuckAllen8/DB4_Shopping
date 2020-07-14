@@ -9,8 +9,6 @@ namespace DB4_Shopping
 {
     class ShoppingCart
     {
-        //Exercise Work
-
         private Dictionary<string, decimal> menuItems; //decimal for money items
         private ArrayList cartItems;
         private ArrayList cartQuantities;
