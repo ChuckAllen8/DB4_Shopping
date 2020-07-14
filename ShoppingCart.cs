@@ -31,13 +31,13 @@ namespace DB4_Shopping
             menuItems = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase)
             {
                 { "Iron Ore", 100.0m },
-                { "Copper Ore", 50.0m },
+                { "Copper Ore", 49.50m },
                 { "Mithril Ore", 500.0m },
-                { "Silver Ore", 400.0m },
-                { "Gold Ore", 600.0m },
-                { "Apple Pie", 10.0m },
+                { "Silver Ore", 400.99m },
+                { "Gold Ore", 675.0m },
+                { "Apple Pie", 11.25m },
                 { "Pumpkin Pie", 11.0m },
-                { "Pound Cake", 15.0m },
+                { "Pound Cake", 11.50m },
                 { "Warlock Hat", 1000.0m },
                 { "Toilet Paper", 1999.99m },
                 { "Unobtanium Ore", 1999999.99m }
