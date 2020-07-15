@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
@@ -28,6 +29,12 @@ namespace DB4_Shopping
             Screen display = Screen.Menu;
             Console.SetWindowSize(70, 40);
 
+            List<string> quitCommands = new List<string>
+            { "C", "CHECKOUT", "QUIT", "CHECK" };
+
+            List<string> cartCommands = new List<string>
+            { "S", "SHOW", "CART", "SHOW CART" };
+
             while (keepgoing)
             {
                 if(display == Screen.Menu)
@@ -55,12 +62,12 @@ namespace DB4_Shopping
                         //user input a name for the item they want.
                         cart.AddItem(input);
                     }
-                    else if (input.ToUpper() == "C" || input.ToUpper() == "CHECKOUT")
+                    else if (quitCommands.Contains(input.ToUpper()))
                     {
                         //user wants to quit
                         keepgoing = false;
                     }
-                    else if (input.ToUpper() == "S" || input.ToUpper() == "SHOW" || input.ToUpper() == "CART" || input.ToUpper() == "SHOW CART")
+                    else if (cartCommands.Contains(input.ToUpper()))
                     {
                         //user wants to see their cart
                         display = Screen.Cart;
@@ -82,7 +89,7 @@ namespace DB4_Shopping
                         //Switch back to the menu
                         display = Screen.Menu;
                     }
-                    else if (input.ToUpper() == "C" || input.ToUpper() == "CHECKOUT")
+                    else if (quitCommands.Contains(input))
                     {
                         //user wants to quit
                         keepgoing = false;
