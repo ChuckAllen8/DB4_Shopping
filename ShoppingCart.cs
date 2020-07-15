@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Threading;
-using System.Globalization;
+using System.Text;
 
 namespace DB4_Shopping
 {
@@ -49,13 +49,40 @@ namespace DB4_Shopping
             MenuItemCount = menuItems.Count;
         }
 
+        private string ToMenuCase(string name)
+        {
+            //this is private and should only be called on a menu item, which is 2 words.
+            //this will convert the words to Title Case even if they are entirely upper case
+            //as no acronyms are on the menu and the Globalization method does not convert
+            //entirely upper case to Title Case
+            string[] words = name.Split(" ");
+            StringBuilder finalName = new StringBuilder();
+            for(int wordNum = 0; wordNum < words.Length; wordNum++)
+            {
+                char[] letters = words[wordNum].ToCharArray();
+                for (int letterNum = 0; letterNum < letters.Length; letterNum++)
+                {
+                    if(letterNum > 0)
+                    {
+                        finalName.Append(letters[letterNum].ToString().ToLower());
+                    }
+                    else
+                    {
+                        finalName.Append(letters[letterNum].ToString().ToUpper());
+                    }
+                }
+                finalName.Append(" ");
+            }
+            return finalName.ToString().Trim();
+        }
+
         public void AddItem(string itemName)
         {
             //check to see if the item is in the cart already
             //if so add 1 to the quantity for it, otherwise add it.
             //also ensures that if the user entered the name in a different case
             //that it is converted to the same case the dictionary uses.
-            itemName = (new CultureInfo("en-Us", false)).TextInfo.ToTitleCase(itemName);
+            itemName = ToMenuCase(itemName);
 
             if (cartItems.Contains(itemName))
             {
@@ -89,7 +116,7 @@ namespace DB4_Shopping
             //or add the item if it isn't already in the cart.
             //also ensures that if the user entered the name in a different case
             //that it is converted to the same case the dictionary uses.
-            itemName = (new CultureInfo("en-Us", false)).TextInfo.ToTitleCase(itemName);
+            itemName = ToMenuCase(itemName);
 
             for (int added = 1; added <= quantity; added++)
             {
