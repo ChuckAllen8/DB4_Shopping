@@ -259,7 +259,7 @@ namespace DB4_Shopping
 
             Console.CursorVisible = false;
             Console.WriteLine($"|{"Unique Items",WIDTH_TWO}|{"Total Items",WIDTH_TWO}|{"Total Cost",WIDTH_TWO}|");
-            Console.WriteLine($"|{cartItems.Count,WIDTH_TWO:#,#.#}|{quantitiesTotal,WIDTH_TWO:#,#.#}|{totalPrice,WIDTH_TWO:c}|");
+            Console.WriteLine($"|{cartItems.Count,WIDTH_TWO:#,0.#}|{quantitiesTotal,WIDTH_TWO:#,0.#}|{totalPrice,WIDTH_TWO:c}|");
             Console.WriteLine(divider);
             Console.WriteLine($"|{"High Price",WIDTH_TWO}|{"Low Price",WIDTH_TWO}|{"Avg Price Each",WIDTH_TWO}|");
             Console.WriteLine($"|{highestPrice,WIDTH_TWO:c}|{lowestPrice,WIDTH_TWO:c}|{averagePrice,WIDTH_TWO:c}|");
